@@ -16,6 +16,7 @@ public class Splash extends javax.swing.JFrame {
      */
     public Splash() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
