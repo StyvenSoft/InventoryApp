@@ -32,6 +32,15 @@ public class Products extends javax.swing.JFrame {
     Connection Con = null;
     Statement St = null;
     ResultSet Rs = null;
+    
+    public void ConnectionDb()
+    {
+        try {
+            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +65,7 @@ public class Products extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         CatCb = new javax.swing.JComboBox<>();
         AddBtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        DeleteBtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -131,12 +140,17 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 51, 255));
-        jButton3.setText("Delete");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        DeleteBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        DeleteBtn.setForeground(new java.awt.Color(0, 51, 255));
+        DeleteBtn.setText("Delete");
+        DeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteBtnMouseClicked(evt);
+            }
+        });
+        DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                DeleteBtnActionPerformed(evt);
             }
         });
 
@@ -190,7 +204,7 @@ public class Products extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -246,7 +260,7 @@ public class Products extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
                             .addComponent(jButton4)
-                            .addComponent(jButton3)
+                            .addComponent(DeleteBtn)
                             .addComponent(jButton5))
                         .addGap(233, 233, 233))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -270,18 +284,20 @@ public class Products extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_DeleteBtnActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:  
     }//GEN-LAST:event_jButton5ActionPerformed
-
+    
+    
+    
     public void SelectProd()
     {
         try {
-          Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+          ConnectionDb();
           St = Con.createStatement();
           Rs = St.executeQuery("select * from PRODUCTTBL");
           ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
@@ -292,7 +308,7 @@ public class Products extends javax.swing.JFrame {
     
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
         try {
-            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+            ConnectionDb();
             PreparedStatement add = Con.prepareStatement("insert into PRODUCTTBL values(?, ?, ?, ?, ?)");
             
             add.setInt(1, Integer.valueOf(ProdId.getText()));
@@ -309,6 +325,26 @@ public class Products extends javax.swing.JFrame {
             e.printStackTrace();                   
         }
     }//GEN-LAST:event_AddBtnMouseClicked
+
+    private void DeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteBtnMouseClicked
+        if(ProdId.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Enter the product to be deleted");
+        } else 
+        {
+            try {
+                ConnectionDb();
+                String Id = ProdId.getText();
+                String Query = "Delete from styvensoft.PRODUCTTBL where PRODTID="+Id;
+                Statement Add = Con.createStatement();
+                Add.executeUpdate(Query);
+                SelectProd();
+                JOptionPane.showMessageDialog(this, "Prodcut deleted successfylly!");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_DeleteBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -348,12 +384,12 @@ public class Products extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBtn;
     private javax.swing.JComboBox<String> CatCb;
+    private javax.swing.JButton DeleteBtn;
     private javax.swing.JTextField ProdDesc;
     private javax.swing.JTextField ProdId;
     private javax.swing.JTextField ProdName;
     private javax.swing.JTextField ProdQty;
     private javax.swing.JTable ProductTable;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
