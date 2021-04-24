@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,7 +104,7 @@ public class Products extends javax.swing.JFrame {
         jLabel5.setText("Quantity");
 
         ProdQty.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        ProdQty.setText("  ");
+        ProdQty.setToolTipText("");
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 255));
@@ -159,6 +160,7 @@ public class Products extends javax.swing.JFrame {
                 "Product Id", "Name", "Quantity", "Description", "Category"
             }
         ));
+        ProductTable.setToolTipText("");
         ProductTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         jScrollPane1.setViewportView(ProductTable);
 
@@ -280,9 +282,17 @@ public class Products extends javax.swing.JFrame {
             PreparedStatement add = Con.prepareStatement("insert into PRODUCTTBL values(?, ?, ?, ?, ?)");
             
             add.setInt(1, Integer.valueOf(ProdId.getText()));
+            add.setString(2, ProdName.getText());
+            add.setInt(3, Integer.valueOf(ProdQty.getText()));
+            add.setString(4, ProdDesc.getText());
+            add.setString(5, CatCb.getSelectedItem().toString());
+            
+            int row = add.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Product Successfully Added");
+            Con.close();
             
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();                   
         }
     }//GEN-LAST:event_AddBtnMouseClicked
 
