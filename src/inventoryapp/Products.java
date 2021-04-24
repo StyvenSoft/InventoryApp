@@ -5,13 +5,14 @@
  */
 package inventoryapp;
 
-import java.beans.Statement;
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Products extends javax.swing.JFrame {
     public Products() {
         initComponents();
         setLocationRelativeTo(null);
+        SelectProd();
     }
     
     Connection Con = null;
@@ -276,6 +278,18 @@ public class Products extends javax.swing.JFrame {
         // TODO add your handling code here:  
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    public void SelectProd()
+    {
+        try {
+          Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+          St = Con.createStatement();
+          Rs = St.executeQuery("select * from PRODUCTTBL");
+          ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
@@ -290,7 +304,7 @@ public class Products extends javax.swing.JFrame {
             int row = add.executeUpdate();
             JOptionPane.showMessageDialog(this, "Product Successfully Added");
             Con.close();
-            
+            SelectProd();
         } catch (SQLException e) {
             e.printStackTrace();                   
         }
