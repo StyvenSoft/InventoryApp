@@ -67,7 +67,7 @@ public class Products extends javax.swing.JFrame {
         CatCb = new javax.swing.JComboBox<>();
         AddBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        UpdateBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProductTable = new javax.swing.JTable();
@@ -155,9 +155,14 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 51, 255));
-        jButton4.setText("Edit");
+        UpdateBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        UpdateBtn.setForeground(new java.awt.Color(0, 51, 255));
+        UpdateBtn.setText("Edit");
+        UpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UpdateBtnMouseClicked(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 51, 255));
@@ -208,7 +213,7 @@ public class Products extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(AddBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(UpdateBtn)
                         .addGap(18, 18, 18)
                         .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
@@ -265,7 +270,7 @@ public class Products extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
-                            .addComponent(jButton4)
+                            .addComponent(UpdateBtn)
                             .addComponent(DeleteBtn)
                             .addComponent(jButton5))
                         .addGap(233, 233, 233))
@@ -361,6 +366,25 @@ public class Products extends javax.swing.JFrame {
         ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
     }//GEN-LAST:event_ProductTableMouseClicked
 
+    private void UpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateBtnMouseClicked
+         if(ProdId.getText().isEmpty()||ProdName.getText().isEmpty()||ProdQty.getText().isEmpty()||ProdDesc.getText().isEmpty())
+         {
+             JOptionPane.showMessageDialog(this, "Missing Information");
+         } else
+         {
+             try {
+                 ConnectionDb();
+                 String UpdateQuery = "update styvensoft.PRODUCTTBL set PRODNAME='"+ProdName.getText()+"'"+",PRODQTY="+ProdQty.getText()+""+",PRODDESC='"+ProdDesc.getText()+"'"+",PRODCAT='"+CatCb.getSelectedItem().toString()+"'"+"where PRODTID ="+ProdId.getText();
+                 Statement Add = Con.createStatement();
+                 Add.executeUpdate(UpdateQuery);
+                 JOptionPane.showMessageDialog(this, "Product Update Successfully");
+                 SelectProd();
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+         }
+    }//GEN-LAST:event_UpdateBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -405,7 +429,7 @@ public class Products extends javax.swing.JFrame {
     private javax.swing.JTextField ProdName;
     private javax.swing.JTextField ProdQty;
     private javax.swing.JTable ProductTable;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton UpdateBtn;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
