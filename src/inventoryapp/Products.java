@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -178,6 +179,11 @@ public class Products extends javax.swing.JFrame {
         ));
         ProductTable.setToolTipText("");
         ProductTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        ProductTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProductTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(ProductTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -345,6 +351,15 @@ public class Products extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked
+
+    private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
+        int MyIndex = ProductTable.getSelectedRow();
+        ProdId.setText(model.getValueAt(MyIndex, 0).toString());
+        ProdName.setText(model.getValueAt(MyIndex, 1).toString());
+        ProdQty.setText(model.getValueAt(MyIndex, 2).toString());
+        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
+    }//GEN-LAST:event_ProductTableMouseClicked
 
     /**
      * @param args the command line arguments
