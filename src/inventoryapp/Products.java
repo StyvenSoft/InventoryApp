@@ -68,7 +68,7 @@ public class Products extends javax.swing.JFrame {
         AddBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
         UpdateBtn = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        HomeBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProductTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -164,12 +164,17 @@ public class Products extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 51, 255));
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        HomeBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        HomeBtn.setForeground(new java.awt.Color(0, 51, 255));
+        HomeBtn.setText("Home");
+        HomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HomeBtnMouseClicked(evt);
+            }
+        });
+        HomeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                HomeBtnActionPerformed(evt);
             }
         });
 
@@ -217,7 +222,7 @@ public class Products extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5))
+                        .addComponent(HomeBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -272,7 +277,7 @@ public class Products extends javax.swing.JFrame {
                             .addComponent(AddBtn)
                             .addComponent(UpdateBtn)
                             .addComponent(DeleteBtn)
-                            .addComponent(jButton5))
+                            .addComponent(HomeBtn))
                         .addGap(233, 233, 233))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,9 +304,9 @@ public class Products extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DeleteBtnActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void HomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeBtnActionPerformed
         // TODO add your handling code here:  
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_HomeBtnActionPerformed
     
     
     
@@ -385,6 +390,11 @@ public class Products extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_UpdateBtnMouseClicked
 
+    private void HomeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeBtnMouseClicked
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_HomeBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -424,13 +434,13 @@ public class Products extends javax.swing.JFrame {
     private javax.swing.JButton AddBtn;
     private javax.swing.JComboBox<String> CatCb;
     private javax.swing.JButton DeleteBtn;
+    private javax.swing.JButton HomeBtn;
     private javax.swing.JTextField ProdDesc;
     private javax.swing.JTextField ProdId;
     private javax.swing.JTextField ProdName;
     private javax.swing.JTextField ProdQty;
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton UpdateBtn;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
