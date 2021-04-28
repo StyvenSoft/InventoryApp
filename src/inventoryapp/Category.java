@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -140,6 +141,11 @@ public class Category extends javax.swing.JFrame {
         ));
         CategoryTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         CategoryTable.setSurrendersFocusOnKeystroke(true);
+        CategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CategoryTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(CategoryTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -261,6 +267,14 @@ public class Category extends javax.swing.JFrame {
             e.printStackTrace();                   
         }
     }//GEN-LAST:event_AddBtnMouseClicked
+
+    private void CategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoryTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)CategoryTable.getModel();
+        int MyIndex = CategoryTable.getSelectedRow();
+        CatId.setText(model.getValueAt(MyIndex, 0).toString());
+        CatName.setText(model.getValueAt(MyIndex, 1).toString());
+        
+    }//GEN-LAST:event_CategoryTableMouseClicked
 
     /**
      * @param args the command line arguments
