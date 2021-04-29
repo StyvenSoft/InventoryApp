@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -62,7 +63,7 @@ public class Customers extends javax.swing.JFrame {
         CustPhone = new javax.swing.JTextField();
         AddBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        EditBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CustomerTable = new javax.swing.JTable();
@@ -135,9 +136,14 @@ public class Customers extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 51, 255));
-        jButton4.setText("Edit");
+        EditBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        EditBtn.setForeground(new java.awt.Color(0, 51, 255));
+        EditBtn.setText("Edit");
+        EditBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditBtnMouseClicked(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 51, 255));
@@ -159,6 +165,11 @@ public class Customers extends javax.swing.JFrame {
         ));
         CustomerTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         CustomerTable.setSurrendersFocusOnKeystroke(true);
+        CustomerTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CustomerTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(CustomerTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -199,7 +210,7 @@ public class Customers extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(EditBtn)
                         .addGap(18, 18, 18)
                         .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
@@ -230,7 +241,7 @@ public class Customers extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
-                            .addComponent(jButton4)
+                            .addComponent(EditBtn)
                             .addComponent(DeleteBtn)
                             .addComponent(jButton5))
                         .addGap(344, 344, 344))
@@ -313,6 +324,33 @@ public class Customers extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked
 
+    private void EditBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditBtnMouseClicked
+        if(CustId.getText().isEmpty()||CustName.getText().isEmpty()||CustPhone.getText().isEmpty())
+         {
+             JOptionPane.showMessageDialog(this, "Missing Information");
+         } else
+         {
+             try {
+                 ConnectionDb();
+                 String UpdateQuery = "update styvensoft.CUSTOMERTBL set CUSTNAME='"+CustName.getText()+"'"+",CUSTPHONE='"+CustPhone.getText()+"'"+"where CUSTID ="+CustId.getText();
+                 Statement Add = Con.createStatement();
+                 Add.executeUpdate(UpdateQuery);
+                 JOptionPane.showMessageDialog(this, "Customer Update Successfully");
+                 SelectCust();
+             } catch (SQLException e) {
+                 e.getMessage();
+             }
+         } 
+    }//GEN-LAST:event_EditBtnMouseClicked
+
+    private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
+        int MyIndex = CustomerTable.getSelectedRow();
+        CustId.setText(model.getValueAt(MyIndex, 0).toString());
+        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
+    }//GEN-LAST:event_CustomerTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -355,7 +393,7 @@ public class Customers extends javax.swing.JFrame {
     private javax.swing.JTextField CustPhone;
     private javax.swing.JTable CustomerTable;
     private javax.swing.JButton DeleteBtn;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton EditBtn;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
