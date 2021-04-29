@@ -61,7 +61,7 @@ public class Customers extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         CustPhone = new javax.swing.JTextField();
         AddBtn = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        DeleteBtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -121,12 +121,17 @@ public class Customers extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 51, 255));
-        jButton3.setText("Delete");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        DeleteBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        DeleteBtn.setForeground(new java.awt.Color(0, 51, 255));
+        DeleteBtn.setText("Delete");
+        DeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteBtnMouseClicked(evt);
+            }
+        });
+        DeleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                DeleteBtnActionPerformed(evt);
             }
         });
 
@@ -196,7 +201,7 @@ public class Customers extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton5)
                         .addGap(18, 18, 18)))
@@ -226,7 +231,7 @@ public class Customers extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
                             .addComponent(jButton4)
-                            .addComponent(jButton3)
+                            .addComponent(DeleteBtn)
                             .addComponent(jButton5))
                         .addGap(344, 344, 344))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -250,9 +255,9 @@ public class Customers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void DeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_DeleteBtnActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -287,6 +292,26 @@ public class Customers extends javax.swing.JFrame {
             e.getMessage();                    
         } 
     }//GEN-LAST:event_AddBtnMouseClicked
+
+    private void DeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteBtnMouseClicked
+        if(CustId.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Enter the customer to be deleted");
+        } else 
+        {
+            try {
+                ConnectionDb();
+                String Id = CustId.getText();
+                String Query = "Delete from styvensoft.CUSTOMERTBL where CUSTID="+Id;
+                Statement Add = Con.createStatement();
+                Add.executeUpdate(Query);
+                SelectCust();
+                JOptionPane.showMessageDialog(this, "Customer deleted successfylly!");
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        }
+    }//GEN-LAST:event_DeleteBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -329,7 +354,7 @@ public class Customers extends javax.swing.JFrame {
     private javax.swing.JTextField CustName;
     private javax.swing.JTextField CustPhone;
     private javax.swing.JTable CustomerTable;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
