@@ -5,6 +5,15 @@
  */
 package inventoryapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author USUARIO
@@ -17,6 +26,20 @@ public class Customers extends javax.swing.JFrame {
     public Customers() {
         initComponents();
         setLocationRelativeTo(null);
+        SelectCust();
+    }
+    
+    Connection Con = null;
+    Statement St = null;
+    ResultSet Rs = null;
+    
+    public void ConnectionDb()
+    {
+        try {
+            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 
     /**
@@ -32,17 +55,17 @@ public class Customers extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        CustId = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        CustName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        CustPhone = new javax.swing.JTextField();
+        AddBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        CustomerTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,23 +98,28 @@ public class Customers extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 51, 255));
         jLabel3.setText("Customer Id");
 
-        jTextField1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        CustId.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 51, 255));
         jLabel4.setText("Name");
 
-        jTextField2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        CustName.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 255));
         jLabel5.setText("Phone");
 
-        jTextField3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        CustPhone.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 51, 255));
-        jButton2.setText("Add");
+        AddBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        AddBtn.setForeground(new java.awt.Color(0, 51, 255));
+        AddBtn.setText("Add");
+        AddBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddBtnMouseClicked(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(0, 51, 255));
@@ -115,8 +143,8 @@ public class Customers extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        CustomerTable.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        CustomerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -124,9 +152,9 @@ public class Customers extends javax.swing.JFrame {
                 "Customer Id", "Name", "Phone"
             }
         ));
-        jTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        jTable1.setSurrendersFocusOnKeystroke(true);
-        jScrollPane1.setViewportView(jTable1);
+        CustomerTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        CustomerTable.setSurrendersFocusOnKeystroke(true);
+        jScrollPane1.setViewportView(CustomerTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -152,19 +180,19 @@ public class Customers extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(CustPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(CustName, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(CustId, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(AddBtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4)
                         .addGap(18, 18, 18)
@@ -185,18 +213,18 @@ public class Customers extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1))
+                            .addComponent(CustId))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField2))
+                            .addComponent(CustName))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3)
+                            .addComponent(CustPhone)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
+                            .addComponent(AddBtn)
                             .addComponent(jButton4)
                             .addComponent(jButton3)
                             .addComponent(jButton5))
@@ -229,6 +257,36 @@ public class Customers extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+    
+    public void SelectCust()
+    {
+        try {
+          ConnectionDb();
+          St = Con.createStatement();
+          Rs = St.executeQuery("select * from CUSTOMERTBL");
+          CustomerTable.setModel(DbUtils.resultSetToTableModel(Rs));
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+    
+    private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
+          try {
+            ConnectionDb();
+            PreparedStatement add = Con.prepareStatement("insert into CUSTOMERTBL values(?, ?, ?)");
+            
+            add.setInt(1, Integer.valueOf(CustId.getText()));
+            add.setString(2, CustName.getText());
+            add.setString(3, CustPhone.getText());
+                        
+            int row = add.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Customer Successfully Added");
+            Con.close();
+            SelectCust();
+        } catch (SQLException e) {
+            e.getMessage();                    
+        } 
+    }//GEN-LAST:event_AddBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -266,7 +324,11 @@ public class Customers extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton AddBtn;
+    private javax.swing.JTextField CustId;
+    private javax.swing.JTextField CustName;
+    private javax.swing.JTextField CustPhone;
+    private javax.swing.JTable CustomerTable;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -278,9 +340,5 @@ public class Customers extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
