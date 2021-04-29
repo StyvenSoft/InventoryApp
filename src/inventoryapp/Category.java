@@ -55,7 +55,7 @@ public class Category extends javax.swing.JFrame {
         CatName = new javax.swing.JTextField();
         AddBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        EditBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CategoryTable = new javax.swing.JTable();
@@ -122,9 +122,14 @@ public class Category extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 51, 255));
-        jButton4.setText("Edit");
+        EditBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        EditBtn.setForeground(new java.awt.Color(0, 51, 255));
+        EditBtn.setText("Edit");
+        EditBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditBtnMouseClicked(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 51, 255));
@@ -183,7 +188,7 @@ public class Category extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(AddBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(EditBtn)
                         .addGap(18, 18, 18)
                         .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
@@ -210,7 +215,7 @@ public class Category extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
-                            .addComponent(jButton4)
+                            .addComponent(EditBtn)
                             .addComponent(DeleteBtn)
                             .addComponent(jButton5))
                         .addGap(368, 368, 368))
@@ -295,11 +300,30 @@ public class Category extends javax.swing.JFrame {
                 Add.executeUpdate(Query);
                 SelectCat();
                 JOptionPane.showMessageDialog(this, "Category deleted successfylly!");
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked
+
+    private void EditBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditBtnMouseClicked
+        if(CatId.getText().isEmpty()||CatName.getText().isEmpty())
+         {
+             JOptionPane.showMessageDialog(this, "Missing Information");
+         } else
+         {
+             try {
+                 ConnectionDb();
+                 String UpdateQuery = "update styvensoft.CATEGORYTBL set CATNAME='"+CatName.getText()+"'"+"where CATID ="+CatId.getText();
+                 Statement Add = Con.createStatement();
+                 Add.executeUpdate(UpdateQuery);
+                 JOptionPane.showMessageDialog(this, "Category Update Successfully");
+                 SelectCat();
+             } catch (Exception e) {
+                 e.printStackTrace();
+             }
+         }
+    }//GEN-LAST:event_EditBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -342,7 +366,7 @@ public class Category extends javax.swing.JFrame {
     private javax.swing.JTextField CatName;
     private javax.swing.JTable CategoryTable;
     private javax.swing.JButton DeleteBtn;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton EditBtn;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
