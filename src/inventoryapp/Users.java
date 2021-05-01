@@ -57,7 +57,7 @@ public class Users extends javax.swing.JFrame {
         Uphone = new javax.swing.JTextField();
         AddBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        EditBtn = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         UserTable = new javax.swing.JTable();
@@ -124,9 +124,14 @@ public class Users extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 51, 255));
-        jButton4.setText("Edit");
+        EditBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        EditBtn.setForeground(new java.awt.Color(0, 51, 255));
+        EditBtn.setText("Edit");
+        EditBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditBtnMouseClicked(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 51, 255));
@@ -177,7 +182,7 @@ public class Users extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4)
+                        .addComponent(EditBtn)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
@@ -207,7 +212,7 @@ public class Users extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
-                            .addComponent(jButton4)
+                            .addComponent(EditBtn)
                             .addComponent(jButton3)
                             .addComponent(jButton5))
                         .addGap(402, 402, 402))
@@ -270,6 +275,25 @@ public class Users extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AddBtnMouseClicked
 
+    private void EditBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditBtnMouseClicked
+        if(Uname.getText().isEmpty()||Upass.getText().isEmpty()||Uphone.getText().isEmpty())
+         {
+             JOptionPane.showMessageDialog(this, "Missing Information");
+         } else
+         {
+             try {
+                 ConnectionDb();
+                 String UpdateQuery = "update styvensoft.USERTBL set UNAME='"+Uname.getText()+"'"+",UPASS='"+Upass.getText()+"'"+"where UPHONE="+Uphone.getText();
+                 Statement Add = Con.createStatement();
+                 Add.executeUpdate(UpdateQuery);
+                 JOptionPane.showMessageDialog(this, "User Update Successfully");
+                 SelectUser();
+             } catch (SQLException e) {
+                 e.getMessage();
+             }
+         } 
+    }//GEN-LAST:event_EditBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -307,12 +331,12 @@ public class Users extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBtn;
+    private javax.swing.JButton EditBtn;
     private javax.swing.JTextField Uname;
     private javax.swing.JTextField Upass;
     private javax.swing.JTextField Uphone;
     private javax.swing.JTable UserTable;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
