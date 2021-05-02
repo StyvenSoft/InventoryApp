@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -153,6 +154,11 @@ public class Users extends javax.swing.JFrame {
         ));
         UserTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         UserTable.setSurrendersFocusOnKeystroke(true);
+        UserTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UserTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(UserTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -283,7 +289,7 @@ public class Users extends javax.swing.JFrame {
          {
              try {
                  ConnectionDb();
-                 String UpdateQuery = "update styvensoft.USERTBL set UNAME='"+Uname.getText()+"'"+",UPASS='"+Upass.getText()+"'"+"where UPHONE="+Uphone.getText();
+                 String UpdateQuery = "update styvensoft.USERTBL set UNAME='"+Uname.getText()+"'"+",UPASS='"+Upass.getText()+"'"+"where UPHONE ="+"'"+Uphone.getText()+"'";
                  Statement Add = Con.createStatement();
                  Add.executeUpdate(UpdateQuery);
                  JOptionPane.showMessageDialog(this, "User Update Successfully");
@@ -293,6 +299,14 @@ public class Users extends javax.swing.JFrame {
              }
          } 
     }//GEN-LAST:event_EditBtnMouseClicked
+
+    private void UserTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)UserTable.getModel();
+        int MyIndex = UserTable.getSelectedRow();
+        Uname.setText(model.getValueAt(MyIndex, 0).toString());
+        Upass.setText(model.getValueAt(MyIndex, 1).toString());
+        Uphone.setText(model.getValueAt(MyIndex, 2).toString());
+    }//GEN-LAST:event_UserTableMouseClicked
 
     /**
      * @param args the command line arguments
