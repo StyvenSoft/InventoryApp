@@ -268,22 +268,36 @@ public class Users extends javax.swing.JFrame {
         }
     }
     
+    public void ClearBox()
+    {
+        Uname.setText(null);
+        Upass.setText(null);
+        Uphone.setText(null);
+    }
+    
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
-        try {
-            ConnectionDb();
-            PreparedStatement add = Con.prepareStatement("insert into USERTBL values(?, ?, ?)");
-            
-            add.setString(1, Uname.getText());
-            add.setString(2, Upass.getText());
-            add.setString(3, Uphone.getText());
-            
-            int row = add.executeUpdate();
-            JOptionPane.showMessageDialog(this, "User Successfully Added");
-            Con.close();
-            SelectUser();
-        } catch (SQLException e) {
-            e.getMessage();                   
-        }
+        if(Uname.getText().isEmpty()||Upass.getText().isEmpty()||Uphone.getText().isEmpty())
+         {
+             JOptionPane.showMessageDialog(this, "Add Information");
+         } else
+         {
+            try {
+                ConnectionDb();
+                PreparedStatement add = Con.prepareStatement("insert into USERTBL values(?, ?, ?)");
+
+                add.setString(1, Uname.getText());
+                add.setString(2, Upass.getText());
+                add.setString(3, Uphone.getText());
+
+                int row = add.executeUpdate();
+                JOptionPane.showMessageDialog(this, "User Successfully Added");
+                Con.close();
+                SelectUser();
+                ClearBox();
+            } catch (SQLException e) {
+                e.getMessage();                   
+            }
+         }
     }//GEN-LAST:event_AddBtnMouseClicked
 
     private void EditBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditBtnMouseClicked
