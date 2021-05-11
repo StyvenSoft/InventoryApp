@@ -5,6 +5,13 @@
  */
 package inventoryapp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author USUARIO
@@ -16,6 +23,21 @@ public class Orders extends javax.swing.JFrame {
      */
     public Orders() {
         initComponents();
+        setLocationRelativeTo(null);
+        SelectProd();
+    }
+    
+    Connection Con = null;
+    Statement St = null;
+    ResultSet Rs = null;
+    
+    public void ConnectionDb()
+    {
+        try {
+            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
+        } catch (SQLException e) {
+            e.getMessage();
+        }
     }
 
     /**
@@ -246,44 +268,50 @@ public class Orders extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                                    .addComponent(CustName)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(UpdateBtn)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(HomeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(67, 67, 67)
+                                    .addComponent(OrderId, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                            .addComponent(CustName)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(UpdateBtn)
-                            .addGap(18, 18, 18)
-                            .addComponent(HomeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(67, 67, 67)
-                            .addComponent(OrderId, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(61, 61, 61)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(AddToOrder))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(184, 184, 184)
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(AddToOrder))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(61, 61, 61)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -291,12 +319,12 @@ public class Orders extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AddToOrder)
-                            .addComponent(Qty)
-                            .addComponent(jLabel8))
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                            .addComponent(jLabel8)
+                            .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddToOrder))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,8 +341,8 @@ public class Orders extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
                             .addComponent(UpdateBtn)
-                            .addComponent(HomeBtn))
-                        .addGap(184, 184, 184))))
+                            .addComponent(HomeBtn))))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -346,44 +374,55 @@ public class Orders extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
+    public void SelectProd()
+    {
         try {
-            ConnectionDb();
-            PreparedStatement add = Con.prepareStatement("insert into PRODUCTTBL values(?, ?, ?, ?, ?)");
-
-            add.setInt(1, Integer.valueOf(OrderId.getText()));
-            add.setString(2, CustName.getText());
-            add.setInt(3, Integer.valueOf(Date.getText()));
-            add.setString(4, ProdDesc.getText());
-            add.setString(5, CatCb.getSelectedItem().toString());
-
-            int row = add.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Product Successfully Added");
-            Con.close();
-            SelectProd();
+          ConnectionDb();
+          St = Con.createStatement();
+          Rs = St.executeQuery("select * from PRODUCTTBL");
+          ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
+    }
+    private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
+//        try {
+//            ConnectionDb();
+//            PreparedStatement add = Con.prepareStatement("insert into PRODUCTTBL values(?, ?, ?, ?, ?)");
+//
+//            add.setInt(1, Integer.valueOf(OrderId.getText()));
+//            add.setString(2, CustName.getText());
+//            add.setInt(3, Integer.valueOf(Date.getText()));
+//            add.setString(4, ProdDesc.getText());
+//            add.setString(5, CatCb.getSelectedItem().toString());
+//
+//            int row = add.executeUpdate();
+//            JOptionPane.showMessageDialog(this, "Product Successfully Added");
+//            Con.close();
+//            SelectProd();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_AddBtnMouseClicked
 
     private void AddToOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddToOrderMouseClicked
-        if(OrderId.getText().isEmpty())
-        {
-            JOptionPane.showMessageDialog(this, "Enter the product to be deleted");
-        } else
-        {
-            try {
-                ConnectionDb();
-                String Id = OrderId.getText();
-                String Query = "Delete from styvensoft.PRODUCTTBL where PRODTID="+Id;
-                Statement Add = Con.createStatement();
-                Add.executeUpdate(Query);
-                SelectProd();
-                JOptionPane.showMessageDialog(this, "Prodcut deleted successfylly!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        if(OrderId.getText().isEmpty())
+//        {
+//            JOptionPane.showMessageDialog(this, "Enter the product to be deleted");
+//        } else
+//        {
+//            try {
+//                ConnectionDb();
+//                String Id = OrderId.getText();
+//                String Query = "Delete from styvensoft.PRODUCTTBL where PRODTID="+Id;
+//                Statement Add = Con.createStatement();
+//                Add.executeUpdate(Query);
+//                SelectProd();
+//                JOptionPane.showMessageDialog(this, "Prodcut deleted successfylly!");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }//GEN-LAST:event_AddToOrderMouseClicked
 
     private void AddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddToOrderActionPerformed
@@ -391,22 +430,22 @@ public class Orders extends javax.swing.JFrame {
     }//GEN-LAST:event_AddToOrderActionPerformed
 
     private void UpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateBtnMouseClicked
-        if(OrderId.getText().isEmpty()||CustName.getText().isEmpty()||Date.getText().isEmpty()||ProdDesc.getText().isEmpty())
-        {
-            JOptionPane.showMessageDialog(this, "Missing Information");
-        } else
-        {
-            try {
-                ConnectionDb();
-                String UpdateQuery = "update styvensoft.PRODUCTTBL set PRODNAME='"+CustName.getText()+"'"+",PRODQTY="+Date.getText()+""+",PRODDESC='"+ProdDesc.getText()+"'"+",PRODCAT='"+CatCb.getSelectedItem().toString()+"'"+"where PRODTID ="+OrderId.getText();
-                Statement Add = Con.createStatement();
-                Add.executeUpdate(UpdateQuery);
-                JOptionPane.showMessageDialog(this, "Product Update Successfully");
-                SelectProd();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        if(OrderId.getText().isEmpty()||CustName.getText().isEmpty()||Date.getText().isEmpty()||ProdDesc.getText().isEmpty())
+//        {
+//            JOptionPane.showMessageDialog(this, "Missing Information");
+//        } else
+//        {
+//            try {
+//                ConnectionDb();
+//                String UpdateQuery = "update styvensoft.PRODUCTTBL set PRODNAME='"+CustName.getText()+"'"+",PRODQTY="+Date.getText()+""+",PRODDESC='"+ProdDesc.getText()+"'"+",PRODCAT='"+CatCb.getSelectedItem().toString()+"'"+"where PRODTID ="+OrderId.getText();
+//                Statement Add = Con.createStatement();
+//                Add.executeUpdate(UpdateQuery);
+//                JOptionPane.showMessageDialog(this, "Product Update Successfully");
+//                SelectProd();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
     }//GEN-LAST:event_UpdateBtnMouseClicked
 
     private void HomeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeBtnMouseClicked
@@ -419,28 +458,28 @@ public class Orders extends javax.swing.JFrame {
     }//GEN-LAST:event_HomeBtnActionPerformed
 
     private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
-        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
-        int MyIndex = ProductTable.getSelectedRow();
-        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
-        CustName.setText(model.getValueAt(MyIndex, 1).toString());
-        Date.setText(model.getValueAt(MyIndex, 2).toString());
-        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
+//        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
+//        int MyIndex = ProductTable.getSelectedRow();
+//        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
+//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+//        Date.setText(model.getValueAt(MyIndex, 2).toString());
+//        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
     }//GEN-LAST:event_ProductTableMouseClicked
 
     private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
-        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
-        int MyIndex = CustomerTable.getSelectedRow();
-        CustId.setText(model.getValueAt(MyIndex, 0).toString());
-        CustName.setText(model.getValueAt(MyIndex, 1).toString());
-        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
+//        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
+//        int MyIndex = CustomerTable.getSelectedRow();
+//        CustId.setText(model.getValueAt(MyIndex, 0).toString());
+//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+//        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
     }//GEN-LAST:event_CustomerTableMouseClicked
 
     private void CustomerTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTable1MouseClicked
-        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
-        int MyIndex = CustomerTable.getSelectedRow();
-        CustId.setText(model.getValueAt(MyIndex, 0).toString());
-        CustName.setText(model.getValueAt(MyIndex, 1).toString());
-        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
+//        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
+//        int MyIndex = CustomerTable.getSelectedRow();
+//        CustId.setText(model.getValueAt(MyIndex, 0).toString());
+//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+//        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
     }//GEN-LAST:event_CustomerTable1MouseClicked
 
     private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
