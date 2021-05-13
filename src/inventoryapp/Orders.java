@@ -10,6 +10,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -26,6 +29,7 @@ public class Orders extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         SelectProd();
         SelectCust();
+        GetToday();
     }
     
     Connection Con = null;
@@ -60,7 +64,7 @@ public class Orders extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         CustName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        Date = new javax.swing.JTextField();
+        DateLbl = new javax.swing.JTextField();
         AddBtn = new javax.swing.JButton();
         AddToOrder = new javax.swing.JButton();
         UpdateBtn = new javax.swing.JButton();
@@ -141,8 +145,8 @@ public class Orders extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 51, 255));
         jLabel5.setText("Date");
 
-        Date.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Date.setToolTipText("");
+        DateLbl.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        DateLbl.setToolTipText("");
 
         AddBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         AddBtn.setForeground(new java.awt.Color(0, 51, 255));
@@ -282,7 +286,7 @@ public class Orders extends javax.swing.JFrame {
                                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                                    .addComponent(DateLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                                     .addComponent(CustName)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -338,7 +342,7 @@ public class Orders extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Date))
+                            .addComponent(DateLbl))
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddBtn)
@@ -398,6 +402,13 @@ public class Orders extends javax.swing.JFrame {
         } catch (SQLException e) {
             e.getMessage();
         }
+    }
+    
+    private void GetToday()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:MM:SS");
+        LocalDateTime now = LocalDateTime.now();
+        DateLbl.setText(dtf.format(now));
     }
     
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
@@ -490,11 +501,11 @@ public class Orders extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomerTableMouseClicked
 
     private void CustomerTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTable1MouseClicked
-//        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
-//        int MyIndex = CustomerTable.getSelectedRow();
-//        CustId.setText(model.getValueAt(MyIndex, 0).toString());
-//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
-//        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
+        DefaultTableModel model = (DefaultTableModel)CustomerTable1.getModel();
+        int MyIndex = CustomerTable1.getSelectedRow();
+        //CustId.setText(model.getValueAt(MyIndex, 0).toString());
+        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+        //CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
     }//GEN-LAST:event_CustomerTable1MouseClicked
 
     private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
@@ -554,7 +565,7 @@ public class Orders extends javax.swing.JFrame {
     private javax.swing.JTextField CustName;
     private javax.swing.JTable CustomerTable;
     private javax.swing.JTable CustomerTable1;
-    private javax.swing.JTextField Date;
+    private javax.swing.JTextField DateLbl;
     private javax.swing.JButton HomeBtn;
     private javax.swing.JTextField OrderId;
     private javax.swing.JTable ProductTable;
