@@ -25,6 +25,7 @@ public class Orders extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         SelectProd();
+        SelectCust();
     }
     
     Connection Con = null;
@@ -318,10 +319,11 @@ public class Orders extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddToOrder))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel8)
+                                .addComponent(AddToOrder)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -385,6 +387,19 @@ public class Orders extends javax.swing.JFrame {
             e.getMessage();
         }
     }
+    
+    public void SelectCust()
+    {
+        try {
+          ConnectionDb();
+          St = Con.createStatement();
+          Rs = St.executeQuery("select * from CUSTOMERTBL");
+          CustomerTable1.setModel(DbUtils.resultSetToTableModel(Rs));
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+    
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
 //        try {
 //            ConnectionDb();
