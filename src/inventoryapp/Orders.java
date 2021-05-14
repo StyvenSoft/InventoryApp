@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -76,7 +78,9 @@ public class Orders extends javax.swing.JFrame {
         Qty = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        ProductTable1 = new javax.swing.JTable();
+        BillTbl = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
+        Price = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
 
         CustomerTable.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -246,8 +250,8 @@ public class Orders extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 51, 255));
         jLabel8.setText("Quantity");
 
-        ProductTable1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        ProductTable1.setModel(new javax.swing.table.DefaultTableModel(
+        BillTbl.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        BillTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -255,14 +259,20 @@ public class Orders extends javax.swing.JFrame {
                 "Num", "Products", "Quantity", "Price", "Total"
             }
         ));
-        ProductTable1.setToolTipText("");
-        ProductTable1.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        ProductTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        BillTbl.setToolTipText("");
+        BillTbl.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        BillTbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ProductTable1MouseClicked(evt);
+                BillTblMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(ProductTable1);
+        jScrollPane4.setViewportView(BillTbl);
+
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel9.setText("Price");
+
+        Price.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -299,17 +309,19 @@ public class Orders extends javax.swing.JFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(67, 67, 67)
                                     .addComponent(OrderId, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(61, 61, 61)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(184, 184, 184)
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
-                                .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(AddToOrder))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(33, 33, 33))
         );
         jPanel1Layout.setVerticalGroup(
@@ -323,18 +335,20 @@ public class Orders extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8)
-                                .addComponent(AddToOrder)))
+                        .addComponent(AddToOrder)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(OrderId))
+                            .addComponent(OrderId)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(Qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -430,25 +444,28 @@ public class Orders extends javax.swing.JFrame {
 //            e.printStackTrace();
 //        }
     }//GEN-LAST:event_AddBtnMouseClicked
-
+    
+    int i = 1, Uprice, total;
+    String ProdName;
+    
     private void AddToOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddToOrderMouseClicked
-//        if(OrderId.getText().isEmpty())
-//        {
-//            JOptionPane.showMessageDialog(this, "Enter the product to be deleted");
-//        } else
-//        {
-//            try {
-//                ConnectionDb();
-//                String Id = OrderId.getText();
-//                String Query = "Delete from styvensoft.PRODUCTTBL where PRODTID="+Id;
-//                Statement Add = Con.createStatement();
-//                Add.executeUpdate(Query);
-//                SelectProd();
-//                JOptionPane.showMessageDialog(this, "Prodcut deleted successfylly!");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (flag == 0 || Qty.getText().isEmpty() || Price.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Select product and Enter Qty");
+        } else 
+        {       
+            Uprice = Integer.valueOf(Price.getText());
+            total = Uprice * Integer.valueOf(Qty.getText());
+            Vector v = new Vector();
+            v.add(i);
+            v.add(ProdName);
+            v.add(Qty.getText());
+            v.add(Uprice);
+            v.add(total);
+            DefaultTableModel dt = (DefaultTableModel)BillTbl.getModel();
+            dt.addRow(v);
+            i++;
+        }
     }//GEN-LAST:event_AddToOrderMouseClicked
 
     private void AddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddToOrderActionPerformed
@@ -483,13 +500,16 @@ public class Orders extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HomeBtnActionPerformed
 
+    int flag = 0;
+    
     private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
-//        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
-//        int MyIndex = ProductTable.getSelectedRow();
-//        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
-//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
+        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
+        int MyIndex = ProductTable.getSelectedRow();
+        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
+        ProdName = model.getValueAt(MyIndex, 1).toString();
 //        Date.setText(model.getValueAt(MyIndex, 2).toString());
 //        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
+        flag = 1;
     }//GEN-LAST:event_ProductTableMouseClicked
 
     private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
@@ -520,9 +540,9 @@ public class Orders extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_OrderIdActionPerformed
 
-    private void ProductTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTable1MouseClicked
+    private void BillTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BillTblMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_ProductTable1MouseClicked
+    }//GEN-LAST:event_BillTblMouseClicked
 
     /**
      * @param args the command line arguments
@@ -562,14 +582,15 @@ public class Orders extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBtn;
     private javax.swing.JButton AddToOrder;
+    private javax.swing.JTable BillTbl;
     private javax.swing.JTextField CustName;
     private javax.swing.JTable CustomerTable;
     private javax.swing.JTable CustomerTable1;
     private javax.swing.JTextField DateLbl;
     private javax.swing.JButton HomeBtn;
     private javax.swing.JTextField OrderId;
+    private javax.swing.JTextField Price;
     private javax.swing.JTable ProductTable;
-    private javax.swing.JTable ProductTable1;
     private javax.swing.JTextField Qty;
     private javax.swing.JButton UpdateBtn;
     private javax.swing.JLabel jLabel2;
@@ -577,6 +598,7 @@ public class Orders extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
