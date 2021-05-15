@@ -457,6 +457,21 @@ public class Orders extends javax.swing.JFrame {
         DateLbl.setText(dtf.format(now));
     }
     
+    private void Update()
+    {
+        int newQty =  oldQty - Integer.valueOf(Qty.getText());
+        try {
+            ConnectionDb();
+            String UpdateQuery = "update styvensoft.PRODUCTTBL set PRODQTY="+newQty+""+"where PRODTID ="+productid;
+            Statement Add = Con.createStatement();
+            Add.executeUpdate(UpdateQuery);
+            JOptionPane.showMessageDialog(this, "Product Update Successfully");
+            SelectProd();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+    
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
 //        try {
 //            ConnectionDb();
@@ -498,6 +513,7 @@ public class Orders extends javax.swing.JFrame {
             dt.addRow(v);
             absolut = absolut + total;
             Amount.setText("Rs" + absolut);
+            Update();
             i++;
         }
     }//GEN-LAST:event_AddToOrderMouseClicked
@@ -534,14 +550,15 @@ public class Orders extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HomeBtnActionPerformed
 
-    int flag = 0;
+    int flag = 0, productid, oldQty;
     
     private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
         DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
         int MyIndex = ProductTable.getSelectedRow();
         OrderId.setText(model.getValueAt(MyIndex, 0).toString());
+        productid = Integer.valueOf(model.getValueAt(MyIndex, 0).toString());
         ProdName = model.getValueAt(MyIndex, 1).toString();
-//        Date.setText(model.getValueAt(MyIndex, 2).toString());
+        oldQty = Integer.valueOf(model.getValueAt(MyIndex, 2).toString());
 //        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
         flag = 1;
     }//GEN-LAST:event_ProductTableMouseClicked
@@ -555,7 +572,7 @@ public class Orders extends javax.swing.JFrame {
     }//GEN-LAST:event_CustomerTableMouseClicked
 
     private void CustomerTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTable1MouseClicked
-        DefaultTableModel model = (DefaultTableModel)CustomerTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel)CustomerTable1.getModel(); 
         int MyIndex = CustomerTable1.getSelectedRow();
         //CustId.setText(model.getValueAt(MyIndex, 0).toString());
         CustName.setText(model.getValueAt(MyIndex, 1).toString());
