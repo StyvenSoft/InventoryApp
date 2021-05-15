@@ -7,6 +7,7 @@ package inventoryapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -67,7 +68,7 @@ public class Orders extends javax.swing.JFrame {
         CustName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         DateLbl = new javax.swing.JTextField();
-        AddBtn = new javax.swing.JButton();
+        AddBtnOrder = new javax.swing.JButton();
         AddToOrder = new javax.swing.JButton();
         UpdateBtn = new javax.swing.JButton();
         HomeBtn = new javax.swing.JButton();
@@ -83,6 +84,7 @@ public class Orders extends javax.swing.JFrame {
         Price = new javax.swing.JTextField();
         Amount = new javax.swing.JTextField();
         btnPrint = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
         CustomerTable.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -156,17 +158,17 @@ public class Orders extends javax.swing.JFrame {
         DateLbl.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         DateLbl.setToolTipText("");
 
-        AddBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        AddBtn.setForeground(new java.awt.Color(0, 51, 255));
-        AddBtn.setText("Add Order");
-        AddBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        AddBtnOrder.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        AddBtnOrder.setForeground(new java.awt.Color(0, 51, 255));
+        AddBtnOrder.setText("Add Order");
+        AddBtnOrder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                AddBtnMouseClicked(evt);
+                AddBtnOrderMouseClicked(evt);
             }
         });
-        AddBtn.addActionListener(new java.awt.event.ActionListener() {
+        AddBtnOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddBtnActionPerformed(evt);
+                AddBtnOrderActionPerformed(evt);
             }
         });
 
@@ -296,6 +298,10 @@ public class Orders extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel10.setText("Rs");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -325,7 +331,7 @@ public class Orders extends javax.swing.JFrame {
                                 .addGap(67, 67, 67)
                                 .addComponent(OrderId, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(AddBtnOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(UpdateBtn)
                                 .addGap(18, 18, 18)
@@ -346,6 +352,8 @@ public class Orders extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Amount, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPrint)
@@ -387,13 +395,14 @@ public class Orders extends javax.swing.JFrame {
                             .addComponent(DateLbl))
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AddBtn)
+                            .addComponent(AddBtnOrder)
                             .addComponent(UpdateBtn)
                             .addComponent(HomeBtn))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Amount)
-                    .addComponent(btnPrint))
+                    .addComponent(btnPrint)
+                    .addComponent(jLabel10))
                 .addGap(23, 23, 23))
         );
 
@@ -472,25 +481,28 @@ public class Orders extends javax.swing.JFrame {
         }
     }
     
-    private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
-//        try {
-//            ConnectionDb();
-//            PreparedStatement add = Con.prepareStatement("insert into PRODUCTTBL values(?, ?, ?, ?, ?)");
-//
-//            add.setInt(1, Integer.valueOf(OrderId.getText()));
-//            add.setString(2, CustName.getText());
-//            add.setInt(3, Integer.valueOf(Date.getText()));
-//            add.setString(4, ProdDesc.getText());
-//            add.setString(5, CatCb.getSelectedItem().toString());
-//
-//            int row = add.executeUpdate();
-//            JOptionPane.showMessageDialog(this, "Product Successfully Added");
-//            Con.close();
-//            SelectProd();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-    }//GEN-LAST:event_AddBtnMouseClicked
+    private void AddBtnOrderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnOrderMouseClicked
+        
+        if(OrderId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter the Order Id");
+        } else {
+            try {
+                ConnectionDb();
+                PreparedStatement add = Con.prepareStatement("insert into ORDERTBL values(?, ?, ?, ?)");
+
+                add.setInt(1, Integer.valueOf(OrderId.getText()));
+                add.setString(2, CustName.getText());
+                add.setString(3, DateLbl.getText());
+                add.setInt(4, Integer.valueOf(Amount.getText()));
+
+                int row = add.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Order Successfully Added");
+                Con.close();
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        }
+    }//GEN-LAST:event_AddBtnOrderMouseClicked
     
     int i = 1, Uprice, total, absolut;
     String ProdName;
@@ -508,11 +520,11 @@ public class Orders extends javax.swing.JFrame {
             v.add(ProdName);
             v.add(Qty.getText());
             v.add(Uprice);
-            v.add(total);
+            v.add(total); 
             DefaultTableModel dt = (DefaultTableModel)BillTbl.getModel();
             dt.addRow(v);
             absolut = absolut + total;
-            Amount.setText("Rs" + absolut);
+            Amount.setText("" + absolut);
             Update();
             i++;
         }
@@ -579,9 +591,9 @@ public class Orders extends javax.swing.JFrame {
         //CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
     }//GEN-LAST:event_CustomerTable1MouseClicked
 
-    private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
+    private void AddBtnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddBtnActionPerformed
+    }//GEN-LAST:event_AddBtnOrderActionPerformed
 
     private void UpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateBtnActionPerformed
         // TODO add your handling code here:
@@ -643,7 +655,7 @@ public class Orders extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddBtn;
+    private javax.swing.JButton AddBtnOrder;
     private javax.swing.JButton AddToOrder;
     private javax.swing.JTextField Amount;
     private javax.swing.JTable BillTbl;
@@ -658,6 +670,7 @@ public class Orders extends javax.swing.JFrame {
     private javax.swing.JTextField Qty;
     private javax.swing.JButton UpdateBtn;
     private javax.swing.JButton btnPrint;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
