@@ -554,7 +554,7 @@ public class Orders extends javax.swing.JFrame {
     }//GEN-LAST:event_UpdateBtnMouseClicked
 
     private void HomeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeBtnMouseClicked
-        new Login().setVisible(true);
+        new HomeForm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_HomeBtnMouseClicked
 

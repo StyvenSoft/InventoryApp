@@ -56,7 +56,7 @@ public class Category extends javax.swing.JFrame {
         AddBtn = new javax.swing.JButton();
         DeleteBtn = new javax.swing.JButton();
         EditBtn = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        HomeBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         CategoryTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -131,12 +131,17 @@ public class Category extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 51, 255));
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        HomeBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        HomeBtn.setForeground(new java.awt.Color(0, 51, 255));
+        HomeBtn.setText("Home");
+        HomeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                HomeBtnMouseClicked(evt);
+            }
+        });
+        HomeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                HomeBtnActionPerformed(evt);
             }
         });
 
@@ -192,7 +197,7 @@ public class Category extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(DeleteBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
+                        .addComponent(HomeBtn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -217,7 +222,7 @@ public class Category extends javax.swing.JFrame {
                             .addComponent(AddBtn)
                             .addComponent(EditBtn)
                             .addComponent(DeleteBtn)
-                            .addComponent(jButton5))
+                            .addComponent(HomeBtn))
                         .addGap(368, 368, 368))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,9 +250,9 @@ public class Category extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DeleteBtnActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void HomeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_HomeBtnActionPerformed
     
     public void SelectCat()
     {
@@ -325,6 +330,11 @@ public class Category extends javax.swing.JFrame {
          }
     }//GEN-LAST:event_EditBtnMouseClicked
 
+    private void HomeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeBtnMouseClicked
+        new HomeForm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_HomeBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -367,7 +377,7 @@ public class Category extends javax.swing.JFrame {
     private javax.swing.JTable CategoryTable;
     private javax.swing.JButton DeleteBtn;
     private javax.swing.JButton EditBtn;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton HomeBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
