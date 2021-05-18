@@ -27,6 +27,7 @@ public class Category extends javax.swing.JFrame {
     public Category() {
         initComponents();
         SelectCat();
+        ClearLb();
     }
 
     Connection Con = null;
@@ -38,7 +39,7 @@ public class Category extends javax.swing.JFrame {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
     
@@ -262,8 +263,14 @@ public class Category extends javax.swing.JFrame {
           Rs = St.executeQuery("select * from CATEGORYTBL");
           CategoryTable.setModel(DbUtils.resultSetToTableModel(Rs));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
+    }
+    
+    private void ClearLb()
+    {
+        CatId.setText("");
+        CatName.setText("");
     }
     
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
@@ -278,8 +285,9 @@ public class Category extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Category Successfully Added");
             Con.close();
             SelectCat();
+            ClearLb();
         } catch (SQLException e) {
-            e.printStackTrace();                   
+            e.getMessage();                   
         }
     }//GEN-LAST:event_AddBtnMouseClicked
 
@@ -305,8 +313,9 @@ public class Category extends javax.swing.JFrame {
                 Add.executeUpdate(Query);
                 SelectCat();
                 JOptionPane.showMessageDialog(this, "Category deleted successfylly!");
+                ClearLb();
             } catch (SQLException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked

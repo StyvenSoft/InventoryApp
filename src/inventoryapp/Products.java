@@ -28,6 +28,8 @@ public class Products extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         SelectProd();
+        GetCategory();
+        ClearLb();
     }
     
     Connection Con = null;
@@ -39,7 +41,7 @@ public class Products extends javax.swing.JFrame {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/InventoryDB", "styvensoft","styvensoft");
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -130,7 +132,6 @@ public class Products extends javax.swing.JFrame {
 
         CatCb.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         CatCb.setForeground(new java.awt.Color(0, 51, 255));
-        CatCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         AddBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         AddBtn.setForeground(new java.awt.Color(0, 51, 255));
@@ -318,8 +319,32 @@ public class Products extends javax.swing.JFrame {
           Rs = St.executeQuery("select * from PRODUCTTBL");
           ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
+    }
+    
+    public void GetCategory()
+    {
+        try {
+            ConnectionDb();
+            St = Con.createStatement();
+            String Query = "select * from styvensoft.CATEGORYTBL";
+            Rs = St.executeQuery(Query);
+            while (Rs.next()) {
+                String MyCategory = Rs.getString("CATNAME");
+                CatCb.addItem(MyCategory);
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+    
+    private void ClearLb()
+    {
+        ProdId.setText("");
+        ProdName.setText("");
+        ProdQty.setText("");
+        ProdDesc.setText("");
     }
     
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
@@ -337,8 +362,9 @@ public class Products extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Product Successfully Added");
             Con.close();
             SelectProd();
+            ClearLb();
         } catch (SQLException e) {
-            e.printStackTrace();                   
+            e.getMessage();                   
         }
     }//GEN-LAST:event_AddBtnMouseClicked
 
@@ -356,8 +382,9 @@ public class Products extends javax.swing.JFrame {
                 Add.executeUpdate(Query);
                 SelectProd();
                 JOptionPane.showMessageDialog(this, "Prodcut deleted successfylly!");
-            } catch (Exception e) {
-                e.printStackTrace();
+                ClearLb();
+            } catch (SQLException e) {
+                e.getMessage();
             }
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked
@@ -384,8 +411,8 @@ public class Products extends javax.swing.JFrame {
                  Add.executeUpdate(UpdateQuery);
                  JOptionPane.showMessageDialog(this, "Product Update Successfully");
                  SelectProd();
-             } catch (Exception e) {
-                 e.printStackTrace();
+             } catch (SQLException e) {
+                 e.getMessage();
              }
          }
     }//GEN-LAST:event_UpdateBtnMouseClicked
