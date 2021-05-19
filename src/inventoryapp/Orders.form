@@ -29,9 +29,6 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CustomerTableMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -354,10 +351,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="View Orders"/>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="UpdateBtnMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UpdateBtnActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="HomeBtn">
           <Properties>

@@ -98,11 +98,6 @@ public class Orders extends javax.swing.JFrame {
         ));
         CustomerTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         CustomerTable.setSurrendersFocusOnKeystroke(true);
-        CustomerTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CustomerTableMouseClicked(evt);
-            }
-        });
         jScrollPane2.setViewportView(CustomerTable);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -189,16 +184,6 @@ public class Orders extends javax.swing.JFrame {
         UpdateBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         UpdateBtn.setForeground(new java.awt.Color(0, 51, 255));
         UpdateBtn.setText("View Orders");
-        UpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                UpdateBtnMouseClicked(evt);
-            }
-        });
-        UpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdateBtnActionPerformed(evt);
-            }
-        });
 
         HomeBtn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         HomeBtn.setForeground(new java.awt.Color(0, 51, 255));
@@ -398,7 +383,6 @@ public class Orders extends javax.swing.JFrame {
                             .addComponent(AddBtnOrder)
                             .addComponent(UpdateBtn)
                             .addComponent(HomeBtn))))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Amount)
                     .addComponent(btnPrint)
@@ -476,7 +460,7 @@ public class Orders extends javax.swing.JFrame {
             Add.executeUpdate(UpdateQuery);
             JOptionPane.showMessageDialog(this, "Product Update Successfully");
             SelectProd();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.getMessage();
         }
     }
@@ -534,25 +518,6 @@ public class Orders extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_AddToOrderActionPerformed
 
-    private void UpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateBtnMouseClicked
-//        if(OrderId.getText().isEmpty()||CustName.getText().isEmpty()||Date.getText().isEmpty()||ProdDesc.getText().isEmpty())
-//        {
-//            JOptionPane.showMessageDialog(this, "Missing Information");
-//        } else
-//        {
-//            try {
-//                ConnectionDb();
-//                String UpdateQuery = "update styvensoft.PRODUCTTBL set PRODNAME='"+CustName.getText()+"'"+",PRODQTY="+Date.getText()+""+",PRODDESC='"+ProdDesc.getText()+"'"+",PRODCAT='"+CatCb.getSelectedItem().toString()+"'"+"where PRODTID ="+OrderId.getText();
-//                Statement Add = Con.createStatement();
-//                Add.executeUpdate(UpdateQuery);
-//                JOptionPane.showMessageDialog(this, "Product Update Successfully");
-//                SelectProd();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-    }//GEN-LAST:event_UpdateBtnMouseClicked
-
     private void HomeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HomeBtnMouseClicked
         new HomeForm().setVisible(true);
         this.dispose();
@@ -564,25 +529,6 @@ public class Orders extends javax.swing.JFrame {
 
     int flag = 0, productid, oldQty;
     
-    private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
-        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
-        int MyIndex = ProductTable.getSelectedRow();
-        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
-        productid = Integer.valueOf(model.getValueAt(MyIndex, 0).toString());
-        ProdName = model.getValueAt(MyIndex, 1).toString();
-        oldQty = Integer.valueOf(model.getValueAt(MyIndex, 2).toString());
-//        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
-        flag = 1;
-    }//GEN-LAST:event_ProductTableMouseClicked
-
-    private void CustomerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTableMouseClicked
-//        DefaultTableModel model = (DefaultTableModel)CustomerTable.getModel();
-//        int MyIndex = CustomerTable.getSelectedRow();
-//        CustId.setText(model.getValueAt(MyIndex, 0).toString());
-//        CustName.setText(model.getValueAt(MyIndex, 1).toString());
-//        CustPhone.setText(model.getValueAt(MyIndex, 2).toString());
-    }//GEN-LAST:event_CustomerTableMouseClicked
-
     private void CustomerTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CustomerTable1MouseClicked
         DefaultTableModel model = (DefaultTableModel)CustomerTable1.getModel(); 
         int MyIndex = CustomerTable1.getSelectedRow();
@@ -594,10 +540,6 @@ public class Orders extends javax.swing.JFrame {
     private void AddBtnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnOrderActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AddBtnOrderActionPerformed
-
-    private void UpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UpdateBtnActionPerformed
 
     private void OrderIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderIdActionPerformed
         // TODO add your handling code here:
@@ -618,6 +560,17 @@ public class Orders extends javax.swing.JFrame {
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPrintActionPerformed
+
+    private void ProductTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProductTableMouseClicked
+        DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
+        int MyIndex = ProductTable.getSelectedRow();
+        OrderId.setText(model.getValueAt(MyIndex, 0).toString());
+        productid = Integer.valueOf(model.getValueAt(MyIndex, 0).toString());
+        ProdName = model.getValueAt(MyIndex, 1).toString();
+        oldQty = Integer.valueOf(model.getValueAt(MyIndex, 2).toString());
+        //        ProdDesc.setText(model.getValueAt(MyIndex, 3).toString());
+        flag = 1;
+    }//GEN-LAST:event_ProductTableMouseClicked
 
     /**
      * @param args the command line arguments

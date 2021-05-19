@@ -102,8 +102,7 @@ public class Splash extends javax.swing.JFrame {
                 MySplash.MyProgress.setValue(i);
                 MySplash.Percentage.setText("Cargando..." + Integer.valueOf(i) + "%");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
         }
         new Login().setVisible(true);
         MySplash.dispose();
